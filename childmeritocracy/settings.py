@@ -2,14 +2,20 @@ import locale
 import os
 from datetime import datetime
 
+import environ
 from django.contrib.messages import constants as messages_constants
 from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = 'ufb0_%q#y0qcskhpm)v3d4=4txs)xwn$3j!%uid1^jf)qij9cv'
-DEBUG = True
 
-ALLOWED_HOSTS = []
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG')
+ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
